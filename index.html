@@ -1,14 +1,232 @@
-<\!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>CryptoStrategy · разборы</title>
-<meta http-equiv="refresh" content="0; url=/kelp-hack/">
-<link rel="canonical" href="https://post.yourcashflow.ru/kelp-hack/">
-<style>body{font-family:-apple-system,sans-serif;max-width:640px;margin:80px auto;padding:0 24px;color:#1a1a1a;}a{color:#FA660F;}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CryptoStrategy · разборы и длинные посты — Сергей Мухомедзянов</title>
+<meta name="description" content="Разборы событий в DeFi, практические гайды и длинные посты. Без истерики, по фактам. Автор — Сергей Мухомедзянов, автор канала CryptoStrategy и интенсива «DeFi с нуля»." />
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=108681680", "ym");
+
+   ym(108681680, "init", {
+        ssr:true,
+        webvisor:true,
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        ecommerce:"dataLayer",
+        trackHash:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/108681680" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --accent: #FA660F;
+    --accent-hover: #e05a0d;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --text-muted: #888;
+    --bg: #ffffff;
+    --bg-soft: #f7f7f7;
+    --bg-card: #fff8f3;
+    --border: #e8e8e8;
+    --border-soft: #efefef;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  .hero { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 48px; }
+  .hero-kicker {
+    display: inline-block;
+    font-size: 13px; font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 42px; line-height: 1.15; font-weight: 800;
+    margin: 0 0 20px 0; letter-spacing: -0.02em;
+  }
+  .hero p {
+    font-size: 19px; color: var(--text-soft); margin: 0 0 12px;
+  }
+  .hero .byline {
+    margin-top: 24px; font-size: 15px; color: var(--text-muted);
+  }
+  .hero .byline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent); }
+  .hero .byline a:hover { color: var(--accent); }
+
+  .section-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin: 48px 0 20px 0;
+  }
+
+  .post-card {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    margin-bottom: 20px;
+    background: var(--bg);
+  }
+  .post-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 16px 40px rgba(250,102,15,0.10);
+    transform: translateY(-2px);
+  }
+  .post-card.featured {
+    background: var(--bg-card);
+    border-color: var(--accent);
+  }
+  .post-meta {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-size: 13px; color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .post-meta .tag {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .post-card h2 {
+    font-size: 28px; line-height: 1.2; font-weight: 800;
+    margin: 0 0 12px 0; letter-spacing: -0.01em;
+  }
+  .post-card .excerpt {
+    color: var(--text-soft); font-size: 16px; margin: 0 0 20px;
+  }
+  .post-card .read-more {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--accent); font-weight: 700; font-size: 15px;
+  }
+
+  .empty-slot {
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 15px;
+    background: var(--bg-soft);
+  }
+
+  .cta-banner {
+    margin-top: 64px;
+    background: #000;
+    color: #fff;
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .cta-banner h3 {
+    font-size: 24px; font-weight: 800; margin: 0 0 12px 0;
+    letter-spacing: -0.01em;
+  }
+  .cta-banner p {
+    color: rgba(255,255,255,0.75); font-size: 16px;
+    margin: 0 auto 24px; max-width: 560px;
+  }
+  .cta-banner a.btn {
+    display: inline-block;
+    background: var(--accent); color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 700; font-size: 16px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .cta-banner a.btn:hover { background: var(--accent-hover); }
+
+  footer.site-footer {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 14px; color: var(--text-muted);
+  }
+  footer.site-footer a { color: var(--text-soft); text-decoration: none; border-bottom: 1px solid var(--border); }
+  footer.site-footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 17px; }
+    .post-card { padding: 24px; }
+    .post-card h2 { font-size: 22px; }
+    .cta-banner { padding: 32px 24px; }
+    .container { padding: 32px 20px 64px; }
+  }
+</style>
 </head>
 <body>
-<h1>CryptoStrategy · разборы</h1>
-<p>Если вас не перекинуло автоматически — <a href="/kelp-hack/">откройте разбор Kelp DAO hack ($292M)</a>.</p>
+<main class="container">
+
+  <section class="hero">
+    <span class="hero-kicker">CryptoStrategy · разборы</span>
+    <h1>Длинные посты и разборы событий в&nbsp;DeFi</h1>
+    <p>Здесь я собираю разборы, которые не влезают в пост в телеграм-канал: взломы, новости протоколов, практические гайды. Без истерики, по фактам.</p>
+    <p class="byline">— Сергей Мухомедзянов, автор канала <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_header_click');">CryptoStrategy</a> и интенсива <a href="https://intensive.yourcashflow.ru/?utm_source=post-hub&amp;utm_medium=header&amp;utm_campaign=index" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','intensive_header_click');">«DeFi с нуля»</a>.</p>
+  </section>
+
+  <h2 class="section-title">Последний разбор</h2>
+
+  <a href="/kelp-hack/" class="post-card featured" onclick="if(window.ym)ym(108681680,'reachGoal','post_click_kelp_hack');">
+    <div class="post-meta">
+      <span class="tag">Взлом · $292M</span>
+      <span>20 апреля 2026</span>
+      <span>·</span>
+      <span>~15 минут чтения</span>
+    </div>
+    <h2>Kelp DAO и $292M: что на самом деле случилось в DeFi 19 апреля</h2>
+    <p class="excerpt">Крупнейший взлом 2026 года: кто такие Kelp DAO, как атака через LayerZero утащила $292M, почему пошатнулся Aave, и что делать трём категориям держателей прямо сейчас. Плюс честно — почему я не паникую и докупаю AAVE.</p>
+    <span class="read-more">Читать разбор →</span>
+  </a>
+
+  <h2 class="section-title">Скоро</h2>
+
+  <div class="empty-slot">
+    Следующие разборы появятся здесь. Следить удобно через <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_empty_slot_click');" style="color:var(--accent);font-weight:600;text-decoration:none;">телеграм-канал CryptoStrategy</a> — там анонсирую каждый новый пост.
+  </div>
+
+  <div class="cta-banner">
+    <h3>Хотите не просто читать, а начать зарабатывать в DeFi?</h3>
+    <p>Короткий прикладной интенсив «DeFi с нуля»: 12 видеоуроков, Telegram-канал, AI-помощник Фидель, личная проверка заданий. За пару часов вы откроете первый пул ликвидности.</p>
+    <a class="btn" href="https://intensive.yourcashflow.ru/?utm_source=post-hub&amp;utm_medium=cta-banner&amp;utm_campaign=index" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','intensive_banner_click');">Перейти на интенсив · 1 490 ₽ →</a>
+  </div>
+
+  <footer class="site-footer">
+    <p>© 2026 · Сергей Мухомедзянов · <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_footer_click');">t.me/CryptoStrategy</a> · <a href="https://intensive.yourcashflow.ru/?utm_source=post-hub&amp;utm_medium=footer&amp;utm_campaign=index" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','intensive_footer_click');">intensive.yourcashflow.ru</a></p>
+  </footer>
+
+</main>
 </body>
 </html>
