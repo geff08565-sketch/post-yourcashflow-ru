@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kelp DAO и $292M: что на самом деле случилось в DeFi 19 апреля — разбор Сергея Мухомедзянова</title>
+<meta name="description" content="Холодный разбор крупнейшего взлома DeFi 2026 года: почему Kelp потерял $292M, как это зацепило Aave, почему я не паникую и докупаю AAVE. Плюс практический план действий." />
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=108681680", "ym");
+
+   ym(108681680, "init", {
+        ssr:true,
+        webvisor:true,
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        ecommerce:"dataLayer",
+        trackHash:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/108681680" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --accent: #FA660F;
+    --accent-hover: #e05a0d;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --text-muted: #888;
+    --bg: #ffffff;
+    --bg-soft: #f7f7f7;
+    --bg-callout: #fff8f3;
+    --border: #e8e8e8;
+    --border-soft: #efefef;
+    --shadow-sm: 0 2px 12px rgba(0,0,0,0.04);
+    --shadow-md: 0 16px 48px rgba(0,0,0,0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  /* HEADER */
+  .post-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+
+  .kicker {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 800;
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-soft);
+    margin: 0 0 24px;
+    font-weight: 400;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 800;
+    margin: 64px 0 20px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 700;
+    margin: 40px 0 14px;
+  }
+
+  h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 28px 0 10px;
+  }
+
+  p { margin: 0 0 18px; }
+
+  strong, b { font-weight: 700; color: var(--text); }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(250,102,15,0.3);
+    transition: border-color 0.15s ease;
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  ul, ol {
+    margin: 0 0 20px;
+    padding-left: 24px;
+  }
+  li { margin-bottom: 8px; }
+
+  /* BLOCKQUOTE */
+  blockquote {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--accent);
+    background: var(--bg-callout);
+    font-style: italic;
+    color: var(--text);
+    border-radius: 0 6px 6px 0;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  /* HR */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 15px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  th {
+    font-weight: 700;
+    background: var(--bg-soft);
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--bg-soft);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 28px 0;
+    border: 1px solid var(--border-soft);
+  }
+
+  .callout.accent {
+    background: var(--bg-callout);
+    border-left: 4px solid var(--accent);
+  }
+
+  .callout h4 { margin-top: 0; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* STATS BLOCK */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .stats .stat {
+    background: var(--bg-soft);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+  }
+  .stats .stat .num {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .stats .stat .lbl {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+
+  /* CTA BLOCK */
+  .cta-block {
+    background: #0f0f0f;
+    color: #fff;
+    padding: 44px 40px;
+    border-radius: 14px;
+    margin: 64px 0 40px;
+    box-shadow: var(--shadow-md);
+  }
+  .cta-block h2 {
+    color: #fff;
+    margin: 0 0 16px;
+    font-size: 28px;
+  }
+  .cta-block p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 16px;
+    font-size: 17px;
+  }
+  .cta-block ul { color: rgba(255,255,255,0.85); }
+  .cta-block strong { color: #fff; }
+  .cta-block a { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .cta-price {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 24px 0 8px;
+    flex-wrap: wrap;
+  }
+  .cta-price .new {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .cta-price .old {
+    font-size: 20px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: line-through;
+  }
+  .cta-price .discount {
+    font-size: 13px;
+    font-weight: 700;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff !important;
+    font-weight: 700;
+    padding: 18px 36px;
+    border-radius: 8px;
+    font-size: 17px;
+    margin-top: 20px;
+    border: none;
+    transition: background 0.15s ease, transform 0.1s ease;
+    text-align: center;
+  }
+  .cta-btn:hover {
+    background: var(--accent-hover);
+    border-bottom: none;
+    transform: translateY(-1px);
+  }
+
+  .cta-guarantee {
+    display: block;
+    margin-top: 14px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* SYNDICATE RULE NOTE */
+  .syndicate-note {
+    background: var(--bg-callout);
+    border-left: 4px solid var(--accent);
+    padding: 24px 28px;
+    border-radius: 0 10px 10px 0;
+    margin: 32px 0;
+  }
+  .syndicate-note h4 {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .syndicate-note p:last-child { margin-bottom: 0; }
+
+  /* FIGURE / SCREENSHOT */
+  figure.screenshot {
+    margin: 32px 0;
+    padding: 0;
+  }
+  figure.screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #0f0f0f;
+    box-shadow: var(--shadow-md);
+  }
+  figure.screenshot .screenshot-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    background: var(--bg-soft);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    padding: 32px 24px;
+    line-height: 1.5;
+  }
+  figure.screenshot figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-soft);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* DIAGRAMS */
+  .diagram {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 32px 24px;
+    margin: 32px 0;
+    border: 1px solid var(--border-soft);
+  }
+  .diagram-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .diagram-flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .diagram-node {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-weight: 700;
+    text-align: center;
+    min-width: 140px;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .diagram-node.accent {
+    border-color: var(--accent);
+    background: var(--bg-callout);
+  }
+  .diagram-node .node-sub {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .diagram-arrow {
+    font-size: 26px;
+    color: var(--accent);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+  }
+  .diagram-arrow-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-soft);
+    font-size: 12px;
+    gap: 2px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .diagram-arrow-label .arrow {
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .diagram-caption {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-soft);
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Aave two-side diagram */
+  .aave-diagram {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .aave-diagram .aave-side { display: flex; flex-direction: column; gap: 10px; }
+  .aave-diagram .aave-side-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .aave-hub {
+    background: var(--accent);
+    color: #fff;
+    padding: 24px 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .aave-hub .hub-sub {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.9;
+    display: block;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  /* DVN compare */
+  .dvn-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .dvn-card {
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid;
+    background: #fff;
+  }
+  .dvn-card.good { border-color: #2d9c5a; }
+  .dvn-card.bad { border-color: #d44; }
+  .dvn-card.good .dvn-card-title { color: #2d9c5a; }
+  .dvn-card.bad .dvn-card-title { color: #d44; }
+  .dvn-card-title {
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  .dvn-card-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .dvn-notaries {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .notary-box {
+    background: var(--bg-soft);
+    border: 1.5px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 64px;
+  }
+  .dvn-result {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 13px;
+    text-align: center;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .dvn-result strong { color: var(--text); }
+
+  @media (max-width: 680px) {
+    .diagram-flow { flex-direction: column; align-items: stretch; }
+    .diagram-flow .diagram-arrow,
+    .diagram-flow .diagram-arrow-label { transform: rotate(90deg); padding: 4px 0; }
+    .diagram-flow .diagram-arrow-label { transform: none; }
+    .aave-diagram { grid-template-columns: 1fr; }
+    .dvn-compare { grid-template-columns: 1fr; }
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--bg-soft);
+    padding: 24px 28px;
+    border-radius: 10px;
+    margin: 40px 0;
+    font-size: 15px;
+  }
+  .toc-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .toc ol {
+    padding-left: 20px;
+    margin: 0;
+    color: var(--text-soft);
+  }
+  .toc li { margin-bottom: 6px; }
+  .toc a { color: var(--text); border-bottom: none; }
+  .toc a:hover { color: var(--accent); }
+
+  /* FOOTER */
+  .post-footer {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .container { padding: 32px 20px 64px; }
+    h1 { font-size: 32px; }
+    .lede { font-size: 18px; }
+    h2 { font-size: 24px; margin-top: 48px; }
+    h3 { font-size: 19px; }
+    .cta-block { padding: 32px 24px; }
+    .cta-block h2 { font-size: 24px; }
+    .cta-price .new { font-size: 32px; }
+    .callout, .syndicate-note, .toc { padding: 20px; }
+    blockquote { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="container">
+
+  <!-- HEADER -->
+  <header class="post-header">
+    <span class="kicker">Разбор · 20 апреля 2026</span>
+    <h1>Kelp DAO потерял $292 миллиона. Что это значит для DeFi и почему я вчера докупил AAVE</h1>
+    <p class="lede">Крупнейший взлом децентрализованных финансов в 2026 году — разбор по фактам, без паники и спекуляций. Что сломалось, как это зацепило Aave, что делать, если ваши деньги там зависли. И почему этот инцидент на самом деле делает систему сильнее.</p>
+    <div class="byline">
+      <span>Сергей Мухомедзянов · <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_header_click');">телеграм-канал CryptoStrategy</a></span>
+      <span class="dot"></span>
+      <span>~30 минут чтения</span>
+      <span class="dot"></span>
+      <span>DeFi · Aave · LayerZero</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">В этом разборе</div>
+    <ol>
+      <li><a href="#what-happened">Что случилось</a></li>
+      <li><a href="#scale">Масштаб — много это или мало в исторической перспективе</a></li>
+      <li><a href="#defi-aave">Что такое DeFi и Aave — коротко для тех, кто не в теме</a></li>
+      <li><a href="#what-is-kelp">Что такое Kelp DAO и чем они занимаются</a></li>
+      <li><a href="#what-broke">Что сломалось у Kelp — разбор атаки</a></li>
+      <li><a href="#mechanics">Как именно украли — механика атаки</a></li>
+      <li><a href="#who">Кто украл — северокорейский спецназ</a></li>
+      <li><a href="#aave-impact">Как это зацепило Aave — и меня лично</a></li>
+      <li><a href="#no-panic">Почему я не паникую</a></li>
+      <li><a href="#why-happens">Почему это вообще происходит — два фактора</a></li>
+      <li><a href="#positive">Что хорошего в этой истории</a></li>
+      <li><a href="#buying-aave">Почему я докупаю Aave</a></li>
+      <li><a href="#practical">Практические шаги, если вы сейчас в Aave</a></li>
+      <li><a href="#final">Стресс-тест очищает рынок</a></li>
+      <li><a href="#checklist">Как смотреть на такие новости без паники</a></li>
+      <li><a href="#intensive">Если вы дочитали до сюда — давайте честно</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. ЧТО СЛУЧИЛОСЬ -->
+  <section id="what-happened">
+    <h2>Что случилось</h2>
+    <p>19 апреля хакеры украли у проекта <strong>Kelp DAO</strong> около <strong>$292 миллионов</strong>. Это больше, чем годовой бюджет среднего европейского города, и это крупнейший взлом в мире децентрализованных финансов (DeFi) за весь 2026 год — обогнавший предыдущий рекорд этого же месяца, взлом Drift Protocol 1 апреля на $285 миллионов.</p>
+
+    <p>Меня эта история задела лично. У меня лежат эфиры в проекте <strong>Aave</strong> — крупнейшем "цифровом банке без банка", где можно положить крипту под процент или взять в долг под залог. До 19 апреля в Aave хранилось <strong>больше $40 миллиардов</strong> клиентских средств. Сам Aave не взламывали — и это важный момент, к которому я вернусь. Но рикошетом от чужого взлома <strong>мои деньги временно заморозились</strong>: Aave ввёл экстренные меры, и я не могу сейчас вывести эфиры напрямую.</p>
+
+    <p>И вот с этого момента начинается то, о чём я хочу поговорить. В твиттере и телеграм-каналах с вечера субботы — <strong>истерика</strong>. Крупнейшие медиа (Bloomberg, Coindesk) выпускают заголовки в духе <em>"DeFi мёртв"</em>, <em>"паника перекидывается на весь рынок"</em>, <em>"самый чёрный день децентрализованных финансов"</em>. Каждый второй инфлюенсер превращает $292M в <strong>приговор всей технологии</strong>.</p>
+
+    <p>Я считаю это дешёвой манипуляцией. Давайте разберём по фактам.</p>
+  </section>
+
+  <!-- 2. МАСШТАБ -->
+  <section id="scale">
+    <h2>Масштаб — много это или мало в исторической перспективе</h2>
+    <p>Чтобы понимать контекст, я свёл статистику последних лет по данным <strong>Chainalysis</strong> (это аналитическая компания, которая отслеживает все крупные крипто-взломы в мире):</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">$3.8B</div><div class="lbl">2022 — пик за всю историю (Ronin, Wormhole, FTX)</div></div>
+      <div class="stat"><div class="num">$1.7B</div><div class="lbl">2023 — падение на 54%</div></div>
+      <div class="stat"><div class="num">$2.2B</div><div class="lbl">2024 — +21%</div></div>
+      <div class="stat"><div class="num">$3.4B</div><div class="lbl">2025 — из них $1.4B на Bybit в феврале</div></div>
+      <div class="stat"><div class="num">$482M</div><div class="lbl">2026 Q1</div></div>
+      <div class="stat"><div class="num">+$577M</div><div class="lbl">Апрель 2026 (три недели)</div></div>
+    </div>
+
+    <p>Кроме двух рекордных взломов в апреле, были и менее громкие, но характерные:</p>
+    <ul>
+      <li><strong>3 апреля</strong> — Silo Finance украли $392 тысячи (неправильно настроенный "оракул" — источник данных)</li>
+      <li><strong>3 апреля</strong> — Dango, $410 тысяч (программная ошибка в мосту)</li>
+      <li><strong>14 апреля</strong> — <strong>CoW Swap</strong>, $1.2 миллиона (угон домена сайта — обычная мошенническая схема, не специфичная для крипты)</li>
+    </ul>
+
+    <p><strong>Важный поворот</strong>, который никто в истерике не замечает: Chainalysis в годовом отчёте за 2025 отдельно написал:</p>
+
+    <blockquote>
+      <p>"DeFi-взломы в 2025 году оставались подавленными. DeFi-протоколы усилили защиту. Основной рост потерь пришёлся на взломы личных кошельков и централизованных сервисов."</p>
+    </blockquote>
+
+    <p>Перевод: сам DeFi <strong>защищался в 2025 лучше, чем когда-либо</strong>. Деньги уходили через биржи и персональные кошельки — то есть <strong>через человеческий фактор</strong>, а не через изъяны протоколов. Апрель 2026 — это <strong>статистический выброс</strong>, а не возвращение тренда.</p>
+  </section>
+
+  <!-- 3. DEFI и AAVE -->
+  <section id="defi-aave">
+    <h2>Что такое DeFi и Aave — коротко для тех, кто не в теме</h2>
+    <p><strong>DeFi</strong> (де-фай) — это финансы без банков. Вместо того, чтобы банк хранил ваши деньги и принимал решения, кому их выдать в кредит, этим занимается <strong>компьютерная программа с открытым исходным кодом</strong>. Программа работает по публичным правилам, которые видит любой желающий. Нельзя "позвонить президенту банка и договориться" — либо условие выполнено, либо нет.</p>
+
+    <p><strong>Aave</strong> — один из крупнейших таких "программных банков". В нём клиенты со всего мира:</p>
+    <ul>
+      <li>Кладут крипту (эфир, стейблкоины) и получают процент, как депозит</li>
+      <li>Берут в долг под залог (как в ломбарде — сдал эфиры, получил доллары, отдал долг — забрал эфиры)</li>
+    </ul>
+
+    <p>До инцидента в Aave лежало <strong>$40+ миллиардов</strong>. Это реальный финансовый институт масштаба среднего европейского банка. Почему люди туда идут: проценты выше, чем в банках, доступ круглосуточный, нет бюрократии, можно участвовать из любой страны без документов, и всё прозрачно — каждая операция, каждый баланс, каждое правило публичны.</p>
+
+    <div class="diagram">
+      <div class="diagram-title">Как устроен Aave</div>
+      <div class="aave-diagram">
+        <div class="aave-side">
+          <div class="aave-side-title">Вкладчик</div>
+          <div class="diagram-node">
+            Кладёт крипту
+            <span class="node-sub">ETH / USDC / USDT</span>
+          </div>
+          <div class="diagram-arrow-label">
+            <span class="arrow">↓</span>
+            <span>получает процент</span>
+          </div>
+        </div>
+        <div class="aave-hub">
+          Aave
+          <span class="hub-sub">программный банк · $40B+ активов</span>
+        </div>
+        <div class="aave-side">
+          <div class="aave-side-title">Заёмщик</div>
+          <div class="diagram-node">
+            Даёт залог, берёт кредит
+            <span class="node-sub">залог ETH → долг USDC</span>
+          </div>
+          <div class="diagram-arrow-label">
+            <span class="arrow">↑</span>
+            <span>платит процент</span>
+          </div>
+        </div>
+      </div>
+      <div class="diagram-caption">Разница между процентами — доход протокола. Все правила зашиты в код, просматриваемы любым человеком.</div>
+    </div>
+  </section>
+
+  <!-- 3.5 ЧТО ТАКОЕ KELP -->
+  <section id="what-is-kelp">
+    <h2>Что такое Kelp DAO и чем они занимаются</h2>
+    <p>Прежде чем разбирать сам взлом, важно понять, что вообще делает Kelp. Иначе потом будет сложно следить за деталями атаки.</p>
+
+    <p><strong>Kelp DAO — это "фабрика многослойного дохода" для держателей эфира.</strong> Объясню просто.</p>
+
+    <p>Представьте, что у вас на руках эфир (ETH). Что с ним можно делать:</p>
+    <ul>
+      <li><strong>Просто держать</strong> — прибыль только от роста цены</li>
+      <li><strong>Отдать в стейкинг</strong> — получать процент за то, что ваш эфир помогает защищать сеть Ethereum (типа депозит, только в крипте)</li>
+      <li><strong>Отдать в рестейкинг</strong> — тот же самый эфир одновременно защищает несколько сервисов поверх Ethereum, и процент капает <strong>сразу из нескольких источников</strong></li>
+    </ul>
+
+    <p>Вот этим последним — рестейкингом — и занимается Kelp. Они берут у вас эфир (обычный ETH или уже застейканный — например, stETH от Lido), отправляют его в инфраструктуру <strong>EigenLayer</strong> (это отдельный проект, который и позволяет "сдавать" эфир в работу на несколько сервисов одновременно), а взамен выдают вам специальный токен <strong>rsETH</strong>.</p>
+
+    <div class="diagram">
+      <div class="diagram-title">Как работает Kelp и откуда берётся rsETH</div>
+      <div class="diagram-flow">
+        <div class="diagram-node">
+          Пользователь
+          <span class="node-sub">кладёт ETH<br/>или stETH</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node accent">
+          Kelp DAO
+          <span class="node-sub">упаковка в<br/>рестейкинг</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node">
+          EigenLayer
+          <span class="node-sub">эфир работает<br/>на несколько сервисов</span>
+        </div>
+      </div>
+      <div class="diagram-flow" style="margin-top:20px;">
+        <div class="diagram-node accent">
+          rsETH
+          <span class="node-sub">квитанция Kelp<br/>+ многослойный %</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node">
+          Aave
+          <span class="node-sub">залог под<br/>стейблкоины</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node">
+          Биржи / DeFi
+          <span class="node-sub">свободное<br/>использование</span>
+        </div>
+      </div>
+      <div class="diagram-caption">Именно rsETH хакер и «допечатал себе» через взломанный мост — а потом внёс в Aave как залог.</div>
+    </div>
+
+    <p>rsETH — это по сути <strong>квитанция</strong>: <em>"у меня в Kelp лежит X эфиров, которые сейчас работают в рестейкинге и приносят процент"</em>. Эту квитанцию вы можете:</p>
+    <ul>
+      <li>Держать и просто получать доход</li>
+      <li>Использовать в других DeFi-протоколах — например, внести в Aave как залог и под него взять стейблкоины (<strong>именно то, что и сделал хакер</strong>)</li>
+      <li>Продать в любой момент на бирже и вернуться в обычный эфир</li>
+    </ul>
+
+    <p>До инцидента объём активов в Kelp составлял порядка <strong>$700M — $1B</strong> (в зависимости от цены эфира). Всего в мире существовало около <strong>650 000 токенов rsETH</strong>. Поэтому кража 116 500 штук — это примерно <strong>18% всех rsETH</strong>, по-настоящему болезненный удар для проекта.</p>
+
+    <p><strong>И ещё один ключевой момент для понимания атаки.</strong> Kelp работает на нескольких блокчейн-сетях одновременно. Пользователь может внести эфир на одной сети (Ethereum) и захотеть получить rsETH на другой (Arbitrum, Linea и т.д.). Между сетями работает мост от LayerZero, который должен подтвердить: <em>"да, пользователь реально положил 10 ETH в Kelp на Ethereum — выдавайте ему 10 rsETH на Arbitrum"</em>. Ровно в этом моменте подтверждения хакеры и вклинились. А теперь подробности.</p>
+  </section>
+
+  <!-- 4. ЧТО СЛОМАЛОСЬ -->
+  <section id="what-broke">
+    <h2>Что сломалось у Kelp — разбор атаки</h2>
+    <p><strong>Представьте банк с филиалами в разных городах.</strong> Когда клиент переводит деньги из филиала А в филиал Б, деньги не летают физически — просто филиал Б получает <strong>подтверждение</strong> от специальной службы: <em>"клиент в А перевёл 100 долларов, выдавайте"</em>.</p>
+
+    <p>В мире крипты разные блокчейн-сети — это те самые разные "филиалы". А между ними работают <strong>мосты</strong> (bridges), которые подтверждают переводы. В нашем случае Kelp использовал <strong>LayerZero</strong> — инфраструктуру, которую я бы сравнил с "железными дорогами между сетями".</p>
+
+    <p>Безопасность LayerZero держится на <strong>DVN</strong> (независимые верификаторы — проще назвать их <strong>нотариусами</strong>). Нотариус — это специальная компания, чья работа — подтверждать, что транзакция настоящая. Без его подписи мост не выдаёт деньги.</p>
+
+    <p><strong>LayerZero очень настойчиво рекомендуют всем клиентам:</strong> ставьте <strong>не одного, а коллегию нотариусов</strong>. Это называется "multi-DVN setup" или "multi-DVN с избыточностью". Логика проста: если один нотариус ошибся, был куплен или его "хакнули" — другие его перекроют. Это прописано в их документации. В чек-листе интеграции. LayerZero отдельно проговаривали это с самим Kelp.</p>
+
+    <p><strong>А Kelp решил сэкономить и поставил одного.</strong> 1-of-1 DVN — "один из одного". Одна подпись нотариуса = деньги выдаются. Второго мнения нет.</p>
+
+    <div class="diagram">
+      <div class="diagram-title">Multi-DVN (как рекомендует LayerZero) vs 1-of-1 (что было у Kelp)</div>
+      <div class="dvn-compare">
+        <div class="dvn-card good">
+          <div class="dvn-card-title">✓ Multi-DVN</div>
+          <div class="dvn-card-subtitle">Коллегия нотариусов</div>
+          <div class="dvn-notaries">
+            <div class="notary-box">Нотариус 1</div>
+            <div class="notary-box">Нотариус 2</div>
+            <div class="notary-box">Нотариус 3</div>
+          </div>
+          <div class="dvn-result">Для выдачи денег нужны подписи <strong>нескольких независимых</strong> нотариусов.<br/>Если одного купили или взломали — остальные перекроют.</div>
+        </div>
+        <div class="dvn-card bad">
+          <div class="dvn-card-title">✗ 1-of-1 DVN</div>
+          <div class="dvn-card-subtitle">Один нотариус (конфигурация Kelp)</div>
+          <div class="dvn-notaries">
+            <div class="notary-box">Нотариус 1</div>
+          </div>
+          <div class="dvn-result">Хватает <strong>одной подписи</strong>. Если источник данных этого нотариуса подменили — мост выдаёт деньги никому ничего не заподозрив.</div>
+        </div>
+      </div>
+    </div>
+
+    <p>В официальном разборе инцидента от 20 апреля LayerZero не стесняется в выражениях:</p>
+
+    <blockquote>
+      <p>"Конфигурация Kelp напрямую противоречила модели избыточности с несколькими DVN, которую LayerZero последовательно рекомендовала всем интеграционным партнёрам. LayerZero и другие внешние стороны ранее доводили до KelpDAO лучшие практики диверсификации DVN. Несмотря на эти рекомендации, KelpDAO выбрал конфигурацию 1/1."</p>
+    </blockquote>
+
+    <p>Это редкий момент, когда инфраструктурный провайдер публично показывает пальцем на своего клиента и говорит: <em>"мы предупреждали"</em>.</p>
+  </section>
+
+  <!-- 5. МЕХАНИКА -->
+  <section id="mechanics">
+    <h2>Как именно украли — механика атаки</h2>
+    <p>Нотариус, когда подтверждает транзакцию, не заглядывает в блокчейн сам. Он <strong>опрашивает источники данных</strong> — это специальные серверы, которые называются <strong>RPC-нодами</strong>. Проще — сравните с <strong>почтовыми отделениями</strong>: нотариус звонит в несколько почтовых отделений и спрашивает, <em>"что там с транзакцией №12345?"</em>. Они отвечают — он подписывает.</p>
+
+    <p>Северокорейские хакеры провели то, что в мире кибербезопасности называется <strong>атакой на цепочку поставок</strong> (supply chain attack) — одну из самых сложных и элегантных форм кибератаки. Они:</p>
+
+    <ol>
+      <li>Получили список RPC-нод, которыми пользовался единственный нотариус Kelp — LayerZero Labs DVN</li>
+      <li><strong>Скомпрометировали две из них</strong> — независимые ноды, работавшие на разных серверных кластерах без прямой связи друг с другом</li>
+      <li>Подменили программное обеспечение на этих нодах (технический термин — "swapped op-geth binaries")</li>
+      <li>Настроили подмену так, что:
+        <ul>
+          <li><strong>Нотариусу</strong> LayerZero эти ноды сообщали фальшивку</li>
+          <li><strong>Всем остальным клиентам</strong> (включая собственный мониторинг LayerZero) — говорили правду</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p>Этот трюк называется <strong>RPC-spoofing</strong>. Его смысл в том, чтобы никто не заподозрил подмену — внешне всё работало штатно.</p>
+
+    <p>Нотариус получил "подтверждение" сразу с двух независимых источников. Поверил. Подписал. Мост выпустил <strong>116 500 токенов rsETH</strong> (это около $292 миллионов, примерно 18% всех токенов rsETH, существующих в мире).</p>
+
+    <blockquote>
+      <p>"В результате этой манипуляции экземпляр DVN, управляемый LayerZero Labs, подтвердил транзакции, которых на самом деле не было."</p>
+    </blockquote>
+
+    <p>Если бы у Kelp было несколько нотариусов с <strong>независимыми</strong> источниками данных, такой трюк не сработал бы — атакующим пришлось бы скомпрометировать инфраструктуру разных, не связанных между собой провайдеров. Это на порядки сложнее и требует на порядки больше ресурсов.</p>
+
+    <div class="callout">
+      <h4>Хронология атаки (по минутам)</h4>
+      <ul>
+        <li><strong>17:35 UTC 18 апреля</strong> — первый транш ушёл, $292M в кармане атакующего</li>
+        <li><strong>18:21 UTC</strong> — через 46 минут мультисиг Kelp <strong>остановил контракты</strong></li>
+        <li><strong>18:26 UTC и 18:28 UTC</strong> — <strong>две повторные попытки</strong> атакующего с тем же фальшивым пакетом, каждая по ~40 000 rsETH (~$100M) — <strong>обе отменены</strong>. Защита сработала</li>
+      </ul>
+      <p>То есть из трёх ударов первый прошёл, два были отбиты. Это <strong>не полный провал защиты</strong>, это <strong>частичное проникновение</strong> — с быстрой реакцией в течение часа.</p>
+    </div>
+  </section>
+
+  <!-- 6. КТО -->
+  <section id="who">
+    <h2>Кто украл — северокорейский спецназ, а не хакер-одиночка</h2>
+    <p><strong>Это не школьники с AI-скриптом.</strong> По атрибуции LayerZero, подтверждённой Seal911 (это известный whitehat-коллектив в крипто-безопасности, вроде добровольной пожарной бригады индустрии), атаку провела <strong>группа Lazarus</strong> — точнее, её подразделение <strong>TraderTraitor</strong>, специализирующееся на supply chain атаках на криптоинфраструктуру.</p>
+
+    <p>Lazarus — это <strong>государственная хакерская группа КНДР</strong>. Это не преувеличение: американские, британские и южнокорейские спецслужбы многократно подтверждали её связь с разведкой Северной Кореи. Санкции ООН официально определяют её как государственный актор. Деньги, которые они воруют, идут на финансирование ракетной и ядерной программ КНДР.</p>
+
+    <p>На их счету:</p>
+    <ul>
+      <li><strong>$1.4 миллиарда</strong> у биржи Bybit в феврале 2025 (крупнейший взлом в истории крипты)</li>
+      <li><strong>$305 миллионов</strong> у DMM Bitcoin в 2024</li>
+      <li><strong>$235 миллионов</strong> у WazirX в 2024</li>
+      <li>Десятки более мелких взломов</li>
+    </ul>
+
+    <p>Их стиль — <strong>не "ворваться и ломать код"</strong>. Их стиль — <strong>годами разрабатывать точку входа, изучать цель, находить единственного сотрудника или единственную систему, которую можно скомпрометировать</strong>, и бить точно туда. В случае Kelp этой "единственной системой" стал тот самый 1-of-1 DVN.</p>
+
+    <p>Разница с уличным хакером примерно такая же, как между <strong>карманником</strong> и <strong>спецназом с тепловизорами и снайперами</strong>. И вот этот спецназ целенаправленно ударил ровно по самому слабому месту.</p>
+  </section>
+
+  <!-- 7. AAVE -->
+  <section id="aave-impact">
+    <h2>Как это зацепило Aave — и меня лично</h2>
+    <p>Украденные токены хакер не стал <strong>обналичивать сразу</strong> (для Lazarus это было бы слишком прямолинейно). Вместо этого он <strong>внёс их как залог в Aave V3</strong> и взял под них кредит в настоящем эфире.</p>
+
+    <p>То есть технически выглядело так: пришёл "клиент", сдал в ломбард "золото" (формально оно ещё было настоящим по смарт-контракту Kelp — мост-то выдал реальный токен), получил под это доллары, ушёл. Только потом выяснилось, что золото — поддельное в том смысле, что оно не обеспечено реальными эфирами на другой стороне.</p>
+
+    <div class="diagram">
+      <div class="diagram-title">Как хакер «отмыл» поддельные токены через Aave</div>
+      <div class="diagram-flow">
+        <div class="diagram-node" style="border-color:#d44;">
+          Хакер
+          <span class="node-sub">держит 116 500<br/>поддельных rsETH</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node accent">
+          Aave V3
+          <span class="node-sub">принимает rsETH<br/>как залог</span>
+        </div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-node" style="border-color:#2d9c5a;">
+          Хакер
+          <span class="node-sub">забирает<br/>настоящий WETH</span>
+        </div>
+      </div>
+      <div class="diagram-caption">
+        В момент сделки смарт-контракт Aave не мог отличить "настоящий" rsETH от "допечатанного" через взломанный мост — формально всё соответствовало правилам. Поддельная квитанция осталась в Aave как "плохой долг" ($196M), настоящий эфир ушёл с хакером.
+      </div>
+    </div>
+
+    <p>Основатель Aave <strong>Stani Kulechov</strong> в первый же час выпустил коммуникацию:</p>
+
+    <blockquote>
+      <p>"rsETH заморожен в Aave V3 и V4. Актив не имеет кредитной силы в качестве меры из-за эксплойта моста KelpDAO, который произошёл за пределами Aave. Ни Aave V3, ни Aave V4 больше не имеют экспозиции на rsETH."</p>
+    </blockquote>
+
+    <p>Сутки спустя, 20 апреля в 02:17 UTC, Aave выпустил следующее обновление (этот твит получил 721 тысячу просмотров):</p>
+
+    <blockquote>
+      <p>"По нашему анализу, rsETH в основной сети Ethereum полностью обеспечен. Из осторожности rsETH остаётся замороженным в Aave V3 и V4, а воздействие инцидента ограничено. Резервы WETH также остаются замороженными в затронутых рынках, включая Ethereum, Arbitrum, Base, Mantle и Linea. Aave активно проверяет информацию и оценивает возможные решения."</p>
+    </blockquote>
+
+    <p>Ключевая фраза здесь — <em>"полностью обеспечен"</em>. Что она значит: <strong>существующие</strong> токены rsETH у реальных держателей подкреплены настоящими эфирами. Проблема <strong>не в токене как классе</strong>. Проблема в том, что атакующий <strong>допечатал себе</strong> 116 500 лишних — и эти лишние, необеспеченные, стали плохим долгом в Aave.</p>
+
+    <h3>Цифры рикошета</h3>
+    <div class="stats">
+      <div class="stat"><div class="num">−$6.6B</div><div class="lbl">TVL Aave упал с ~$45B до ~$39B</div></div>
+      <div class="stat"><div class="num">−16-20%</div><div class="lbl">Цена токена AAVE</div></div>
+      <div class="stat"><div class="num">$5.4B</div><div class="lbl">Вкладчики вывели за сутки</div></div>
+      <div class="stat"><div class="num">$196M</div><div class="lbl">"Плохой долг" на балансе Aave</div></div>
+      <div class="stat"><div class="num">100%</div><div class="lbl">Utilization WETH — касса пуста</div></div>
+      <div class="stat"><div class="num">5 сетей</div><div class="lbl">Заморозка WETH: Ethereum, Arbitrum, Base, Mantle, Linea</div></div>
+    </div>
+
+    <p>Именно поэтому я лично не могу вывести свои эфиры прямо сейчас. Это не решение Aave меня заблокировать — это <strong>арифметика</strong>: деньги есть на балансе, но их физически нет в свободном пуле.</p>
+  </section>
+
+  <!-- 8. БЕЗ ПАНИКИ -->
+  <section id="no-panic">
+    <h2>А теперь главное — почему я не паникую</h2>
+    <p>Здесь как раз та развилка, ради которой я вообще сел писать.</p>
+
+    <p>Сейчас на каждом углу — <strong>"DeFi это пирамида, бегите, технология провалилась"</strong>. Я считаю это дешёвой манипуляцией. Каждый, кто кричит громче — делает это ради <strong>хайпа и просмотров</strong>. Его не волнует, что вы, обычный человек, завтра примете под эту истерику реальные решения про свои деньги.</p>
+
+    <p><strong>Если мыслить в категориях "чёрное-белое" — то надо запретить автомобили.</strong> В мире в ДТП каждый год гибнут больше миллиона человек. По логике "одна катастрофа = запрет всей отрасли" автомобильной промышленности не должно существовать. Но мы так не делаем. Потому что понимаем: <strong>причина смерти — не "автомобиль как таковой"</strong>. Это пьяный водитель. Невнимательный пешеход. Неисправные тормоза, которые производитель должен был отозвать. Мы не отменяем транспорт — мы <strong>улучшаем безопасность</strong>, отзываем бракованные модели, наказываем безответственных производителей.</p>
+
+    <p>В DeFi — <strong>ровно то же самое</strong>. В случае Kelp <strong>сломалась не технология</strong>. Сломалась <strong>конкретная управленческая ошибка</strong> руководства Kelp: они пошли в продакшен с 1-of-1 DVN, несмотря на прямые письменные рекомендации LayerZero обратного. Ни код Kelp не был дырявым, ни блокчейн Ethereum не был взломан, ни протокол LayerZero не содержал уязвимости. Прямая цитата из отчёта LayerZero по итогам атаки:</p>
+
+    <blockquote>
+      <p>"Сам протокол LayerZero отработал ровно так, как задумано. Никакой уязвимости в протоколе обнаружено не было."</p>
+    </blockquote>
+
+    <p>Изъян был в <strong>конкретном человеке на конкретной должности</strong> в Kelp, который утвердил конфигурацию в обход чек-листа безопасности.</p>
+  </section>
+
+  <!-- 9. ПОЧЕМУ -->
+  <section id="why-happens">
+    <h2>Почему это вообще происходит — два фактора</h2>
+
+    <h3>Фактор первый. Индустрия очень молодая.</h3>
+    <p>DeFi как массовое явление существует <strong>5-7 лет</strong>. Для сравнения: автомобильной промышленности — 130 лет, банковской системе в её современном виде — больше 300 лет. Представьте, что автомобили только что изобрели, и на дороги массово выехали машины 15 разных производителей, у каждого свои стандарты безопасности, ремни есть не у всех, подушек безопасности ещё никто не ставит. Это и есть состояние DeFi сегодня.</p>
+
+    <p>Многие крупные протоколы проектировались в 2020-2022 годах, на пике хайпа, с приоритетом <strong>"успеть первыми, пока есть интерес рынка"</strong>. Безопасность часто уходила на второй план. Это <strong>историческая реальность</strong>, которую надо просто признать — без паники, но и без розовых очков. Проекты, спроектированные в ту эпоху, <strong>будут находить свои слабые места</strong> в ближайшие годы. Это объективный процесс.</p>
+
+    <h3>Фактор второй. Появился искусственный интеллект, который меняет правила игры.</h3>
+    <p>Раньше взлом смарт-контракта (программы DeFi) был задачей уровня "ограбление казино из голливудского фильма" — нужна была команда специалистов, месяцы разведки, выдающийся интеллект. Сейчас ИИ делает эту работу <strong>быстро и массово</strong>.</p>
+
+    <p>Вот конкретные цифры из исследования Anthropic (это компания, которая делает ИИ Claude) за 2025 год:</p>
+    <ul>
+      <li><strong>Средняя стоимость скана одного смарт-контракта на уязвимости — $1.22</strong> (сто двадцать рублей)</li>
+      <li><strong>За день один атакующий может просканировать тысячи контрактов</strong></li>
+      <li><strong>ИИ самостоятельно пишет рабочий эксплойт.</strong> В экспериментах Claude Opus 4.5 сгенерировал рабочую атаку на <strong>$3.5 миллиона</strong>, GPT-5 — на $1.12 миллиона</li>
+      <li><strong>За 2025 год ИИ нашёл 19 реальных уязвимостей</strong>, появившихся уже после даты, до которой он обучался — то есть без готовых подсказок в своих данных</li>
+      <li><strong>Специализированный ИИ для поиска уязвимостей детектит 92% проблем в контрактах</strong> — против 34% у обычного чат-бота. Разница в 2.7 раза</li>
+      <li><strong>Возможности ИИ в этой области удваиваются примерно каждые 1.3 месяца</strong></li>
+    </ul>
+
+    <p>Компания Halborn, занимающаяся аудитами крипто-безопасности, в своём отчёте за начало 2026 отдельно зафиксировала <strong>резкий рост автоматизированных атак на "устаревшие" смарт-контракты</strong>. Злоумышленник с бюджетом в пару сотен долларов натравливает ИИ-агента на тысячи контрактов, тот сканирует, генерирует эксплойт и пробует дрейнить. Ноль строк кода руками.</p>
+
+    <p><strong>То есть защиты, которые три года назад считались достаточными, сегодня ломаются за часы.</strong> Это не провал создателей старых проектов — это просто <strong>мир изменился быстрее, чем они успели обновиться</strong>. И сейчас индустрия в ускоренном режиме догоняет.</p>
+
+    <p>Важный нюанс применительно к Kelp: <strong>конкретно этот взлом не был "ИИ-атакой"</strong>. Lazarus использовал классическую атаку на цепочку поставок — это высокоинтеллектуальная работа людей, и ИИ там в лучшем случае помогал на вспомогательных ролях (разведка, анализ инфраструктуры). Я упоминаю AI-фактор не чтобы свалить всё на него, а чтобы показать общий контекст: <strong>угрозы эволюционируют быстрее, чем большинство проектов успевает усилить защиту</strong>. Kelp проигнорировал апгрейд защиты, когда их об этом <strong>прямо просили</strong> — и стал жертвой именно из-за этой задержки.</p>
+  </section>
+
+  <!-- 10. ХОРОШЕЕ -->
+  <section id="positive">
+    <h2>Что хорошего в этой истории (и почему никто не видит)</h2>
+    <p>Все видят плохое. $292M украли. Aave на паузе. Цена AAVE упала. Заголовки "DeFi is dead".</p>
+
+    <p>А теперь — <strong>то, о чём никто не пишет</strong>. Три факта, каждый из которых в мире традиционных финансов был бы невозможен.</p>
+
+    <h3>Факт первый. LayerZero за 36 часов опубликовала детальный разбор инцидента.</h3>
+    <p>Через полтора дня после атаки LayerZero выпустил <strong>подробный технический отчёт</strong> о произошедшем. С признанием ответственности (по части их DVN), с анализом механики атаки, с <strong>внутренними логами AWS CloudWatch</strong>, с <strong>явным указанием на собственные недоработки</strong> в процессе работы с клиентом, который выбрал плохую конфигурацию.</p>
+
+    <p>Они привели <strong>скриншоты внутренних логов мониторинга</strong> ровно в момент атаки — видно, как их DVN пытался достучаться до правильных серверов, но уже получал подменённые ответы.</p>
+
+    <figure class="screenshot">
+      <img src="assets/layerzero-rpc-attack.jpg" alt="Скриншоты из разбора LayerZero: DDoS внешних RPC (график method calls, пик атаки 10:20a–11:40a PT) и логи CloudWatch с попытками DVN достучаться до серверов во время атаки" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="screenshot-placeholder" style="display:none;">
+        Скриншот из разбора LayerZero<br/>
+        <span style="font-size:12px;color:var(--text-muted);">положите файл в <code>assets/layerzero-rpc-attack.png</code></span>
+      </div>
+      <figcaption>Скриншоты из официального разбора LayerZero. Сверху — всплеск вызовов к внешним RPC-серверам в момент атаки (10:20–11:40 по тихоокеанскому времени 18 апреля). Снизу — внутренние логи CloudWatch: видно, как DVN LayerZero в это же время пытался получать данные от своих RPC, но получал подменённые ответы.</figcaption>
+    </figure>
+
+    <p> Они описали собственные меры безопасности — EDR на всех устройствах, контроль доступа по принципу "минимальных привилегий", изолированные среды, собственная security-команда плюс внешние аудиторы, <strong>идущий прямо сейчас SOC2 audit</strong> (это золотой стандарт сертификации для enterprise-инфраструктуры).</p>
+
+    <p>И они сделали глубокое <strong>философское признание</strong>, которое индустрия должна будет переосмыслить:</p>
+
+    <blockquote>
+      <p>"RPC-верификация — это фундаментальное ограничение всех off-chain сервисов, включая мосты, биржи и так далее. Мы делимся этими выводами, чтобы индустрия училась и адаптировалась к этим новым векторам атак."</p>
+    </blockquote>
+
+    <p>Что это значит: проблема доверия к источникам данных — <strong>общая для всей индустрии</strong>, а не уникальная для LayerZero. Крипто-биржи, оракулы, мосты, индексаторы — все упираются в тот же вопрос. И LayerZero <strong>публично учит других</strong>, как этого избегать.</p>
+
+    <p>Задайте себе вопрос: <strong>когда в последний раз банк, который обворовали, публиковал подробности своих систем безопасности, скриншоты логов и рекомендации, как другим банкам этого избежать?</strong> Никогда. Это противоречит всей их логике секретности. В DeFi прозрачность — <strong>в культуре</strong>.</p>
+
+    <h3>Факт второй. LayerZero ввела новое правило в масштабах всей экосистемы.</h3>
+    <p>После этой атаки LayerZero выпустила <strong>прямое заявление</strong>:</p>
+
+    <blockquote>
+      <p>"LayerZero Labs DVN больше не будет подписывать или удостоверять сообщения от приложений, использующих конфигурацию 1/1."</p>
+    </blockquote>
+
+    <p>То есть <strong>multi-DVN стал не рекомендацией, а жёстким требованием</strong>. Любое приложение на LayerZero с "одним нотариусом" <strong>отключается от обслуживания</strong>. Сами LayerZero <strong>активно обзванивают все приложения с таким setup'ом</strong> и заставляют мигрировать на избыточные конфигурации.</p>
+
+    <p><strong>Это и есть тот самый момент, когда рынок находит свой изъян и тут же его исправляет.</strong> Не через год после десятого взлома. Не после вмешательства регулятора. А <strong>на следующий день</strong> после инцидента, самим же провайдером инфраструктуры.</p>
+
+    <h3>Факт третий. Конкурирующий протокол за 36 часов построил спасательный круг для клиентов Aave.</h3>
+    <p>Вот это — самое, на мой взгляд, красивое.</p>
+
+    <p>Aave заморожен, у клиентов WETH зависли в Aave, касса пустая. По логике традиционных финансов — ждите недели или месяцы, пока регулятор "разберётся" и "примет меры".</p>
+
+    <p>А вот что произошло в DeFi. <strong>Протокол Fluid</strong>, прямой конкурент Aave, <strong>за 36 часов после взлома</strong> выкатил специальный инструмент — <strong>aWETH Swap</strong>. По-простому:</p>
+
+    <blockquote>
+      <p>"У вас зависли эфиры в Aave? Приходите к нам. Мы заберём вашу 'квитанцию' aWETH из Aave и выдадим вам живой ликвидный эфир — в форме wstETH (от Lido) или weETH (от ether.fi). Это обычный эфир, просто 'упакованный' другими проектами, который вы можете свободно использовать или сразу продать."</p>
+    </blockquote>
+
+    <p>Начальная ёмкость программы — <strong>$1 миллиард</strong>. В партнёрах: <strong>Lido, ether.fi, 1inch, KyberNetwork, 0xProject</strong>. Всё это топовые инфра-проекты экосистемы, которые скоординировались за выходные.</p>
+
+    <p><strong>В мире традиционных банков это физически невозможно.</strong> Банк А никогда не запустит продукт, помогающий клиентам банка Б вывести деньги из банка Б. Это противоречит всей логике конкурентной игры. А здесь сделали. Без согласований с регулятором, без пресс-релизов на три месяца вперёд, без корпоративного бюрократического ада. <strong>Увидели проблему у соседа по отрасли — и за выходные построили решение</strong>, потому что все понимают: падение одной части системы угрожает всей.</p>
+
+    <p>Сравните это <strong>"за 36 часов запустили $1B спасательную программу"</strong> с тем, как в 2008 году после краха Lehman Brothers люди ждали <strong>месяцы</strong>, пока правительство США разберётся, что делать с замороженными активами. И сравнивайте это с тем, что я, обычный клиент, <strong>прямо сейчас</strong> могу пойти и воспользоваться Fluid, чтобы вытащить свои деньги — если захочу.</p>
+  </section>
+
+  <!-- 11. ДОКУПАЮ -->
+  <section id="buying-aave">
+    <h2>Почему я докупаю Aave</h2>
+    <p>Честно: да, у меня заморожены деньги в Aave. Да, цена AAVE упала на 16-20%. Да, я в стрессе — любой нормальный человек был бы.</p>
+
+    <p><strong>И при этом вчера я докупил AAVE на просадке. Подписчики Синдиката об этом знают — я написал там сразу, до того, как начал разбираться публично.</strong> Это не задний ум и не попытка "выглядеть умно после факта". Это решение, принятое в моменте, на основании того же анализа, что я раскладываю сейчас.</p>
+
+    <figure class="screenshot">
+      <img src="assets/aave%20buy.jpg" alt="Скриншот моей сделки: покупка AAVE на просадке 19 апреля 2026" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="screenshot-placeholder" style="display:none;">Скриншот покупки AAVE (assets/aave buy.jpg)</div>
+      <figcaption>Моя сделка по покупке AAVE на вчерашней просадке — скриншот из терминала. Не призыв повторять, а демонстрация: я действую по тому же анализу, который сейчас раскладываю в посте.</figcaption>
+    </figure>
+
+    <div class="syndicate-note">
+      <h4>Кратко: что такое DeFi Синдикат</h4>
+      <p>Это моё закрытое сообщество, где живёт рабочая часть моей стратегии — то, что обычно не выкладывают в открытый доступ. Внутри:</p>
+      <ul style="margin:10px 0 12px 0;">
+        <li><strong>Сделки в реальном времени</strong> — когда я захожу или выхожу, подписчики узнают первыми (как с докупом AAVE вчера)</li>
+        <li><strong>Готовые правила и инструменты</strong> под кризисы в протоколах — тот самый пул, в который уходит разбор Kelp/Aave</li>
+        <li><strong>AI-аналитик Фидель</strong> — отвечает на вопросы по позициям, пулам и рискам 24/7</li>
+        <li><strong>Ресёрч по новым протоколам</strong> до того, как о них напишут на русскоязычных каналах</li>
+      </ul>
+      <p style="margin-bottom:0;"><strong>Отдельно Синдикат не продаётся.</strong> Попасть в него можно только через интенсив «DeFi с нуля» — там я объясняю, как устроена система изнутри и почему именно такой путь. Подробности и ссылка — в конце поста.</p>
+    </div>
+
+    <p>Почему я это сделал:</p>
+
+    <ol>
+      <li><strong>Код Aave не сломан.</strong> Его не взломали. Его использовали через чужую дыру. Это как если бы в ломбард пришёл клиент с поддельными документами на золото — проблема не в ломбарде, проблема в подделке. Ломбард, конечно, должен был документы проверить тщательнее, но это проблема конкретного процесса, а не устройства ломбарда.</li>
+      <li><strong>Коммуникация Aave — зрелая.</strong> Никакой паники, оправданий, попыток замять. Два публичных заявления с интервалом в сутки, каждое — конкретное, фактологическое, без эмоций. Ключевая фраза — <em>"оцениваем возможные решения"</em>. Это означает, что <strong>финальная схема покрытия $196M плохого долга ещё не выбрана</strong>. Приоритет номер один — <strong>возврат через Kelp</strong> (переговоры, возможные соглашения о компенсации, работа с правоохранителями для возврата). У Aave есть встроенный страховой фонд <strong>Umbrella</strong> (около $50 миллионов). Только в крайнем случае, если всё остальное провалится, обсуждается механизм частичного покрытия убытка через систему <strong>stkAAVE</strong> (стейкеры токена управления). Это не "автоматически порежут вкладчиков" — это <strong>пятый вариант из пяти</strong>.</li>
+      <li><strong>Сам Stani Kulechov, основатель Aave, на прямой вопрос об устойчивости ответил спокойно:</strong> <em>"Протокольно Aave работает, контракты не скомпрометированы, rsETH как актив полностью обеспечен. Мы оцениваем решения."</em> В мире, где при любой плохой новости корпорации лгут и замалчивают, такая открытость <strong>редкое качество</strong>.</li>
+      <li><strong>Соседи (Fluid) построили мне запасной выход за 36 часов.</strong> Я не в ловушке. У меня есть опция уйти — и именно это даёт мне свободу <strong>остаться</strong>.</li>
+    </ol>
+
+    <p>Я покупаю AAVE не потому что "всё отлично". Я покупаю, потому что <strong>проект проходит стресс-тест так, как должен проходить его зрелый инфраструктурный игрок</strong>. С ушибами, с реальными потерями, но без лжи, без паники, без запертых дверей. Этих качеств нет у большинства финансовых институтов мира — ни в крипте, ни в традиционных финансах.</p>
+
+    <div class="callout accent">
+      <p><strong>⚠️ Важная оговорка:</strong> часть плохого долга теоретически может в итоге быть распределена между вкладчиками через механизм Umbrella или stkAAVE. Это <strong>пятый из пяти возможных сценариев</strong>, но он не исключён полностью. Я иду на этот риск осознанно, потому что верю в протокол и его команду. <strong>Это не совет повторять за мной.</strong> Каждый принимает решение под свою голову, свой горизонт и свой риск-аппетит.</p>
+    </div>
+  </section>
+
+  <!-- 12. ПРАКТИКА -->
+  <section id="practical">
+    <h2>Практические шаги, если вы сейчас в Aave</h2>
+    <p>Это для тех, у кого реально лежат деньги в Aave. Если вы наблюдаете со стороны — можно пропустить.</p>
+    <p>Три разные ситуации — у каждой своё действие.</p>
+
+    <h3>Ситуация 1. У вас в Aave лежит эфир (или другой ETH-производный), и вы хотите вытащить.</h3>
+    <p>Напрямую вывести сейчас не получится — в пуле WETH <strong>100% utilization</strong>, касса пуста. Ждать, пока заёмщики начнут возвращать — занятие для терпеливых (и может занять от дней до недель).</p>
+
+    <p><strong>Путь решения — Fluid aWETH Swap.</strong></p>
+
+    <p>Заходите в Fluid (fluid.io), находите раздел <strong>Swap</strong>, подключаете кошелёк. Fluid принимает ваш aWETH (это ваша "квитанция" из Aave, которая подтверждает, что у вас там лежат эфиры) и выдаёт взамен <strong>живой ликвидный LST</strong> — wstETH (от Lido) или weETH (от ether.fi). Оба эти токена — по сути те же эфиры, просто "упакованные" другими проектами. Вы можете использовать их свободно или тут же продать на DEX в обычный эфир.</p>
+
+    <figure class="screenshot">
+      <img src="assets/fluid%20swap.jpg" alt="Интерфейс Fluid Swap: обмен 1 aEthWETH на 0.795271 aEthwstETH, price impact 2.87%" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="screenshot-placeholder" style="display:none;">Скриншот Fluid Swap (assets/fluid swap.jpg)</div>
+      <figcaption>Интерфейс Fluid Swap: меняете свой aWETH (квитанция из Aave) на aEthwstETH — то есть уже на ликвидный эфир, который можете использовать или продать. Price impact на момент скриншота — 2.87%.</figcaption>
+    </figure>
+
+    <p>Обмен идёт <strong>с небольшим дисконтом</strong> — это плата за то, что Fluid берёт на себя ваш риск ожидания ликвидности. Конкретный процент варьируется в моменте (на скриншоте — 2.87%), смотрите в интерфейсе, когда будете делать операцию.</p>
+
+    <p><strong>Если у вас есть параллельный долг в Aave</strong> (например, заняли стейблы под эфир) — Fluid умеет и это: ваш залог бесшовно конвертируется в wstETH/weETH, долг остаётся прежним, никакой ликвидации не происходит. Этот сценарий описан в их твите 19 апреля отдельно.</p>
+
+    <p>Общая ёмкость программы — <strong>$1 миллиард</strong>. Пока место есть — инструмент работает. Если у вас большие позиции и нервничаете — <strong>скорее, чем позже</strong>, потому что при массовом спросе лимит может выбрать.</p>
+
+    <h3>Ситуация 2. У вас есть долг в стейблах (USDC, USDT, DAI), взятый под залог эфира в Aave.</h3>
+    <p>Коротко: <strong>я бы сейчас его закрыл.</strong></p>
+
+    <p>Почему. Из-за кризиса ликвидности в Aave процент по займам в стейблкоинах <strong>резко вырос — до ~15% годовых</strong>. Это очень много. В спокойное время нормальная ставка — 5-8%.</p>
+
+    <p>Что это значит арифметически. Если ваш долг — $10 000, при 15% годовых это <strong>$1 500 в год</strong> или <strong>~$125 в месяц</strong> только на обслуживание. Каждый день, пока вы держите этот долг открытым, он <strong>объедает ваш баланс значительно сильнее</strong>, чем ещё неделю назад.</p>
+
+    <p>Что делать конкретно:</p>
+    <ul>
+      <li><strong>Если есть свободные стейблы</strong> — закройте долг полностью, сэкономите на процентах</li>
+      <li><strong>Если свободных нет, но есть эфиры вне Aave</strong> — продайте небольшую часть, закройте долг, остальное оставьте</li>
+      <li><strong>Если закрыть целиком никак</strong> — хотя бы <strong>уменьшите долг частично</strong>. Каждый $1 возврата сейчас экономит вам <strong>15 центов в год</strong></li>
+    </ul>
+
+    <p>Это не "бегите и продавайте всё в панике". Это просто <strong>рациональная арифметика</strong>: высокая ставка = дорогое обслуживание = если можно уменьшить, уменьшайте.</p>
+
+    <p>Одновременно проверьте <strong>Health Factor</strong> своей позиции — показатель, насколько залог превышает долг. Если при падении цены эфира HF рискует опуститься ниже 1, ваш залог могут принудительно продать ("ликвидировать") с потерей. В условиях крипто-волатильности лишний запас здоровья не помешает.</p>
+
+    <h3>Ситуация 3. У вас есть свободные стейблы и вы хотите заработать на повышенной ставке.</h3>
+    <p>Обратная сторона того же кризиса: если заёмные ставки подскочили до 15% — значит и <strong>ставки для вкладчиков стейблов тоже резко выросли</strong>. Это базовая арифметика лендинг-протокола: банк зарабатывает на спреде между тем, что получает от заёмщика, и тем, что платит вкладчику.</p>
+
+    <p>Прямо сейчас <strong>внесение стейблов в Aave даёт повышенную доходность</strong>. В обычное время это 3-5% годовых в стейблах, сейчас — сильно выше (точную цифру смотрите в интерфейсе — она меняется в течение дня).</p>
+
+    <figure class="screenshot">
+      <img src="assets/aave%20apy%2014%25.jpg" alt="Aave: APY по стейблкоинам ~14% годовых на фоне кризиса ликвидности"
+           loading="lazy"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="screenshot-placeholder" style="display:none;">Скриншот Aave: ставка по стейблам ~14% годовых</div>
+      <figcaption>Скриншот интерфейса Aave прямо сейчас: ставка по стейблам разгоняется до двухзначных цифр (~14% годовых) против обычных 3-5%. Это и есть "повышенная доходность" из параграфа выше — пока ликвидность не вернулась в затронутые пулы.</figcaption>
+    </figure>
+
+    <p><strong>Но есть три "но", и я должен сказать их честно:</strong></p>
+    <ol>
+      <li><strong>Ставка временная.</strong> Как только ликвидность вернётся, она снизится к нормальным значениям. Это заработок "здесь и сейчас" — на недели, максимум пару месяцев, не на годы.</li>
+      <li><strong>Вы принимаете часть риска кризиса.</strong> Теоретически возможен сценарий, при котором часть плохого долга будет распределена между вкладчиками (тот самый "пятый из пяти" сценарий, о котором я писал). Это не базовый случай, но и не исключённый.</li>
+      <li><strong>Внесённые сейчас стейблы могут быть ограничены в выводе на 1-4 недели</strong>, пока ликвидность в затронутых пулах не восстановится. Если деньги могут понадобиться срочно — этот вариант не для вас.</li>
+    </ol>
+
+    <p><strong>Кому подходит:</strong> людям, которые уже понимают и принимают риски DeFi, имеют в распоряжении "свободный" капитал в стейблах, не чувствительны к блокировке средств на несколько недель, и хотят воспользоваться временным арбитражем.</p>
+
+    <p><strong>Кому НЕ подходит:</strong> людям, которые впервые заходят в DeFi, кому эти деньги нужны в обозримом будущем, или кто не готов к теоретической потере части.</p>
+
+    <div class="callout">
+      <h4>Резюме трёх сценариев, одной строкой на каждый</h4>
+      <ol>
+        <li><strong>Завис эфир?</strong> → Смотрите Fluid aWETH Swap.</li>
+        <li><strong>Дорогой долг в стейблах?</strong> → По возможности закрывайте, проценты кусаются.</li>
+        <li><strong>Есть свободные стейблы и нервы крепкие?</strong> → Можете зайти на повышенную ставку, понимая временность и риски.</li>
+      </ol>
+    </div>
+
+    <div class="syndicate-note">
+      <h4>Ремарка про Синдикат</h4>
+      <p>Эти три сценария — не одноразовые "что делать прямо сейчас". Я прямо сейчас, по горячим следам, <strong>упаковываю их в новый инструмент и набор правил</strong>: пошаговая карта действий под кризис в лендинг-протоколе + готовые сценарии для Aave, Fluid, Morpho, Compound, Spark. Этот инструмент и этот набор правил <strong>уходят в DeFi Синдикат</strong> и остаются там навсегда — как часть инфраструктуры, которой пользуются подписчики.</p>
+      <p>В следующий раз, когда удар придёт по другому протоколу, люди в Синдикате открывают нужный сценарий и действуют. Без истерики, без поиска решений на ходу. Это и есть смысл инфраструктуры для взрослых денег.</p>
+      <p><strong>Как попасть в Синдикат</strong> — объясняю подробно на интенсиве «DeFi с нуля» (ссылка в конце поста). Отдельно Синдикат не продаётся. Вход — только через путь «интенсив → система».</p>
+    </div>
+  </section>
+
+  <!-- 13. ФИНАЛ -->
+  <section id="final">
+    <h2>Финал — стресс-тест очищает рынок</h2>
+    <p>Все эти взломы, как бы больно они ни выглядели в моменте, <strong>нужны</strong>.</p>
+
+    <p><strong>Аналогия из спортзала:</strong> чтобы мышца выросла, её нужно нагрузить до небольшого повреждения. Микро-разрывы. Больно. Неприятно. Но именно через это мышца становится сильнее. Если мышцу никогда не нагружать — человек останется слабым.</p>
+
+    <p>DeFi сейчас проходит именно этот стресс-тест. Одни проекты выдерживают — становятся сильнее, обновляют правила, внедряют новые стандарты. Другие — отваливаются. Это жёстко, но это <strong>здоровый эволюционный процесс</strong>.</p>
+
+    <p>Подумайте о контрфактическом сценарии. Представьте, что этого инцидента не произошло. Kelp спокойно работал бы ещё год с 1-of-1 DVN. В него набежало бы не $300M, а $5B. А потом — удар. Убыток <strong>в 15 раз больше</strong>. Распределённый уже не только на Aave, а на десятки интегрированных протоколов. Это был бы <strong>настоящий</strong> чёрный день DeFi.</p>
+
+    <p><strong>Лучше сейчас, пока стоимость риска — $300M, чем через два года, когда она была бы $5B.</strong></p>
+
+    <p>Что конкретно изменится в индустрии после этого инцидента:</p>
+    <ul>
+      <li><strong>Multi-DVN станет обязательным стандартом</strong> (LayerZero уже вводит это как требование)</li>
+      <li><strong>Аудиторские фирмы обязаны будут проверять конфигурации DVN</strong> и других verification-слоёв как часть стандартной процедуры, а не как опцию</li>
+      <li><strong>Supply chain attacks</strong> на RPC-инфраструктуру теперь находятся в фокусе отрасли — все будут закладываться на этот вектор</li>
+      <li><strong>Рейтинги рисков интеграций</strong> в крупных протоколах (Aave, Compound, Morpho) станут строже</li>
+      <li><strong>Команды управления рисками</strong> получат больше веса в принятии решений о добавлении активов</li>
+    </ul>
+
+    <p><strong>Все, кто переживут эту чистку — будут в разы надёжнее, чем были до неё.</strong></p>
+  </section>
+
+  <!-- 14. ЧЕК-ЛИСТ -->
+  <section id="checklist">
+    <h2>Как смотреть на такие новости без паники</h2>
+    <p>Практический чек-лист, чтобы отделять реальность от истерии. Пригодится не только сейчас, но и для всех будущих криптоновостей такого типа.</p>
+
+    <p>Четыре вопроса, которые стоит задать при любом крупном взломе:</p>
+
+    <div class="callout">
+      <h4>1. Что именно сломалось — технология или конкретная настройка?</h4>
+      <p>В случае Kelp сломалась конкретная настройка (1-of-1 DVN). Сам блокчейн, сам протокол LayerZero, сам смарт-контракт Aave — работали штатно.</p>
+
+      <h4>2. Кто виноват и понесла ли ответственность эта сторона?</h4>
+      <p>Обычно становится ясно через 24-48 часов по официальным разборам. В данном случае: виноват Kelp (проигнорировал рекомендации), риск-команда Aave (одобрила интеграцию без достаточной проверки DVN-конфигурации), LayerZero (недостаточно жёстко настаивал — ужесточает правила сейчас).</p>
+
+      <h4>3. Как экосистема отвечает вокруг?</h4>
+      <p>Есть ли скоординированная реакция, выходят ли конкуренты с решениями, реагирует ли инфраструктура? В нашем случае: да (Fluid спасательный круг, LayerZero новые правила, Seal911 трекинг украденных средств).</p>
+
+      <h4>4. Какие правила изменятся после этого?</h4>
+      <p>Что станет обязательным, какие ошибки не повторятся. В нашем случае: multi-DVN обязателен, supply chain risk в фокусе, риск-процедуры ужесточаются.</p>
+    </div>
+
+    <p>Если у вас есть внятные ответы на эти четыре вопроса — <strong>вы смотрите на реальность, а не на истерию</strong>.</p>
+
+    <p>Истерия кричит: <em>"Всё пропало, DeFi — пирамида, бегите"</em>.<br />
+    Реальность говорит: <em>"Один проект пострадал из-за конкретного управленческого косяка. Система вокруг отреагировала за 36 часов. Правила ужесточаются. Отрасль эволюционирует."</em></p>
+
+    <p>Это <strong>принципиально разные</strong> картины мира. И от того, какую вы видите, зависят решения, которые вы примете со своими деньгами.</p>
+  </section>
+
+  <!-- 15. CTA -->
+  <section id="intensive">
+    <h2>Если вы дочитали до сюда — давайте честно</h2>
+    <p>Этот пост — длинный. Почти тридцать тысяч знаков. Вы потратили на него 20–30 минут своего времени, и я благодарен.</p>
+
+    <p>Но я понимаю, что у большинства читателей сейчас в голове примерно следующее: <strong>"Сергей, всё это звучит разумно. Я даже согласен. Но я в жизни не разберусь самостоятельно, где там DVN, где ломбард, где rsETH, какой Fluid, какие ставки. Я не айтишник. Мне 35+, у меня работа, семья, времени вечно нет. Как мне в этом начать работать руками, а не читать посты?"</strong></p>
+
+    <p>Давайте честно: <strong>один пост не сделает вас участником DeFi</strong>. Он сделает вас образованным наблюдателем — а это всё-таки разные вещи.</p>
+
+    <div class="cta-block">
+      <h2>Интенсив «DeFi с нуля»</h2>
+      <p>Короткий, прикладной интенсив для людей <strong>без технического бэкграунда</strong> — 35+, работа, семья, ноль опыта в крипте, желание разобраться по-взрослому без гуру-истерик.</p>
+
+      <h3 style="color:#fff;margin-top:28px;">Что внутри за пару часов видео</h3>
+      <ul>
+        <li>Как <strong>не потерять деньги</strong> (безопасность — урок 1, самое важное)</li>
+        <li>Как <strong>купить крипту</strong> быстро, дёшево и легально</li>
+        <li>Как <strong>завести свой кошелёк</strong> — ваш личный сейф, который не контролирует ни одна биржа</li>
+        <li>Как <strong>за 10 минут открыть первый пул ликвидности</strong> и начать получать проценты</li>
+        <li>Как устроены <strong>блокчейн, DeFi, пулы, диапазоны, impermanent loss</strong> — простыми словами, без матана</li>
+        <li>Как <strong>мониторить позиции</strong> и видеть большую картину рынка</li>
+      </ul>
+
+      <h3 style="color:#fff;margin-top:28px;">Формат</h3>
+      <p>12 видеоуроков по 5–20 минут, Telegram-канал, практические задания, которые я проверяю <strong>сам, лично</strong>, и бонусом AI-ассистент Фидель, VPN, калькуляторы.</p>
+
+      <h3 style="color:#fff;margin-top:28px;">А ещё — прямой путь в DeFi Синдикат</h3>
+      <p>На интенсиве я отдельно объясняю, <strong>что такое DeFi Синдикат и как в него попасть</strong>. Синдикат — это закрытое сообщество, куда я складываю те самые <strong>правила и готовые инструменты</strong>, о которых говорил выше (в том числе новый разбор по Kelp/Aave с картой действий под кризис в лендинг-протоколе). Разборы проектов, совместные входы, AI-аналитик Фидель под рукой, ресёрч по новым протоколам.</p>
+      <p><strong>Отдельно Синдикат не продаётся — вход только через путь «интенсив → система».</strong> Интенсив — это первый шаг: вы получаете базу, открываете первый пул руками, видите изнутри, как устроена моя работа, и решаете для себя, хотите ли идти глубже.</p>
+
+      <div class="cta-price">
+        <span class="new">1 490 ₽</span>
+        <span class="old">21 950 ₽</span>
+        <span class="discount">−93%</span>
+      </div>
+      <p style="color:rgba(255,255,255,0.7);font-size:15px;margin-top:0;">Меньше, чем ужин в ресторане на двоих. Меньше, чем процент по стейблкоинному долгу в Aave за две недели.</p>
+
+      <a href="http://intensive.yourcashflow.ru/?utm_source=lead-magnet&amp;utm_medium=post&amp;utm_campaign=kelp-hack&amp;utm_content=cta-main" class="cta-btn" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','cta_click');">Перейти на интенсив →</a>
+
+      <span class="cta-guarantee">Гарантия: полный возврат в течение первых трёх уроков без вопросов, если не понравится.</span>
+    </div>
+
+    <p><strong>Почему я упоминаю это именно здесь.</strong> Сегодня вы прочитали пост про крупнейший взлом DeFi в 2026 году. Вы разобрались, как он случился, на каком уровне сломалось, кто виноват и что делать. <strong>Это взрослый уровень разговора.</strong> На таком же уровне устроен и интенсив: коротко, конкретно, с реальными цифрами и практикой.</p>
+
+    <p>Если вы колеблетесь — просто зайдите и почитайте. Я не прошу решений прямо сейчас. Я прошу: <strong>если этот пост был полезен — дайте себе шанс разобраться глубже</strong>. Следующий взлом в индустрии обязательно будет. Вопрос только в том, будете вы к нему готовы или опять читать чужие разборы.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="post-footer">
+    <p><strong>P.S.</strong> Если было полезно — сохраните или поделитесь. Новости по этой истории будут появляться ещё несколько недель, и я постараюсь разбирать их тем же языком — по фактам, без истерики. Подписчики Синдиката получают такие разборы первыми — вчерашний пост про докуп AAVE появился там за несколько часов до сегодняшнего публичного разбора.</p>
+    <p>Спасибо, что дочитали до конца.</p>
+    <p style="margin-top:24px;">— Сергей Мухомедзянов, автор <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_footer_click');">телеграм-канала CryptoStrategy</a></p>
+    <p style="margin-top:24px;color:var(--text-muted);font-size:13px;">© 2026 · <a href="http://intensive.yourcashflow.ru/?utm_source=lead-magnet&amp;utm_medium=post&amp;utm_campaign=kelp-hack&amp;utm_content=footer" onclick="if(window.ym)ym(108681680,'reachGoal','intensive_footer_click');">intensive.yourcashflow.ru</a> · <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_footer_click');">t.me/CryptoStrategy</a></p>
+  </footer>
+
+</main>
+
+<!-- Engagement tracker: scroll depth + time on page -->
+<script>
+(function(){
+  var fired = { s25:false, s50:false, s75:false, s100:false, t2min:false };
+  function goal(g){ if(window.ym) ym(108681680, 'reachGoal', g); }
+
+  function checkScroll(){
+    var h = document.documentElement;
+    var scrolled = (h.scrollTop + window.innerHeight) / h.scrollHeight;
+    if (!fired.s25  && scrolled >= 0.25) { fired.s25  = true; goal('scroll_25');  }
+    if (!fired.s50  && scrolled >= 0.50) { fired.s50  = true; goal('scroll_50');  }
+    if (!fired.s75  && scrolled >= 0.75) { fired.s75  = true; goal('scroll_75');  }
+    if (!fired.s100 && scrolled >= 0.97) { fired.s100 = true; goal('scroll_100'); }
+  }
+
+  window.addEventListener('scroll', checkScroll, { passive: true });
+  // также стреляем при загрузке — на случай коротких экранов
+  window.addEventListener('load', checkScroll);
+
+  // Время на странице > 2 минут = вовлечённый читатель
+  setTimeout(function(){ if(!fired.t2min){ fired.t2min = true; goal('time_2min'); } }, 120000);
+})();
+</script>
+
+</body>
+</html>
