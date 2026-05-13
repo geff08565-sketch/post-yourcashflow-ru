@@ -186,6 +186,77 @@
     .container { padding: 32px 20px 64px; }
   }
 </style>
+<!-- yc-utm-capture v1 -->
+<script type="text/javascript">
+(function() {
+  var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var COOKIE_DOMAIN = '.yourcashflow.ru';
+  var COOKIE_MAX_AGE = 90 * 24 * 3600;
+
+  function readCookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '=([^;]+)');
+    return m ? decodeURIComponent(m[2]) : null;
+  }
+  function writeCookie(name, value) {
+    document.cookie = name + '=' + encodeURIComponent(value) +
+      '; domain=' + COOKIE_DOMAIN +
+      '; path=/; max-age=' + COOKIE_MAX_AGE +
+      '; SameSite=Lax; Secure';
+  }
+
+  // 1. Парсим UTM из текущего URL
+  var urlParams;
+  try { urlParams = new URLSearchParams(window.location.search); }
+  catch (e) { return; /* старый браузер — выходим */ }
+
+  var utmFromUrl = {};
+  UTM_KEYS.forEach(function(k) {
+    var v = urlParams.get(k);
+    if (v) utmFromUrl[k] = v;
+  });
+
+  // 2. Если в URL есть UTM — записываем их в куку (first-touch не перезаписываем)
+  UTM_KEYS.forEach(function(k) {
+    if (utmFromUrl[k] && !readCookie(k)) {
+      writeCookie(k, utmFromUrl[k]);
+    }
+  });
+
+  // 3. Сводная финальная UTM-карта: URL > cookie
+  var utmFinal = {};
+  UTM_KEYS.forEach(function(k) {
+    utmFinal[k] = utmFromUrl[k] || readCookie(k) || null;
+  });
+  window.__yc_utm = utmFinal;
+
+  // 4. На DOM-ready патчим все href на lk.yourcashflow.ru, добавляя UTM
+  function patchLinks() {
+    var hasAny = false;
+    UTM_KEYS.forEach(function(k) { if (utmFinal[k]) hasAny = true; });
+    if (!hasAny) return;
+
+    var nodes = document.querySelectorAll('a[href*="lk.yourcashflow.ru"], a[href*="yourcashflow.getcourse.ru"]');
+    nodes.forEach(function(a) {
+      try {
+        var u = new URL(a.href);
+        UTM_KEYS.forEach(function(k) {
+          if (utmFinal[k] && !u.searchParams.has(k)) {
+            u.searchParams.set(k, utmFinal[k]);
+          }
+        });
+        a.href = u.toString();
+      } catch (e) { /* кривая ссылка — пропускаем */ }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchLinks);
+  } else {
+    patchLinks();
+  }
+})();
+</script>
+<!-- /yc-utm-capture v1 -->
 </head>
 <body>
 <main class="container">
