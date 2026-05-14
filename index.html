@@ -235,7 +235,7 @@
     UTM_KEYS.forEach(function(k) { if (utmFinal[k]) hasAny = true; });
     if (!hasAny) return;
 
-    var nodes = document.querySelectorAll('a[href*="lk.yourcashflow.ru"], a[href*="yourcashflow.getcourse.ru"]');
+    var nodes = document.querySelectorAll('a[href*="lk.yourcashflow.ru"], a[href*="yourcashflow.getcourse.ru"], a[href*="intensive.yourcashflow.ru"]');
     nodes.forEach(function(a) {
       try {
         var u = new URL(a.href);
@@ -270,7 +270,7 @@
 
   <h2 class="section-title">Последний разбор</h2>
 
-  <a href="/kelp-hack/" class="post-card featured" onclick="if(window.ym)ym(108681680,'reachGoal','post_click_kelp_hack');">
+  <a href="/kelp-hack/?utm_source=post_yourcashflow&amp;utm_medium=hub&amp;utm_campaign=content_library&amp;utm_content=hub_kelp_hack_card&amp;utm_term=defi_security" class="post-card featured" onclick="if(window.ym)ym(108681680,'reachGoal','post_click_kelp_hack');">
     <div class="post-meta">
       <span class="tag">Взлом · $292M</span>
       <span>20 апреля 2026</span>
