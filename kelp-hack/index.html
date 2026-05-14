@@ -305,6 +305,120 @@
     color: rgba(255,255,255,0.6);
   }
 
+  .cta-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .cta-actions .cta-btn { margin-top: 0; }
+
+  .cta-btn.secondary {
+    background: transparent;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.28);
+  }
+  .cta-btn.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.45);
+  }
+
+  .email-capture {
+    background: var(--bg-callout);
+    border: 1px solid #ffd8bf;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 14px 14px 0;
+    padding: 30px 32px;
+    margin: 44px 0 48px;
+    box-shadow: var(--shadow-sm);
+  }
+  .email-capture .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .email-capture h3 {
+    margin: 0 0 12px;
+    font-size: 24px;
+  }
+  .email-capture p {
+    color: var(--text-soft);
+    margin-bottom: 18px;
+  }
+  .email-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    margin: 20px 0 10px;
+  }
+  .email-form input[type="email"] {
+    width: 100%;
+    min-height: 54px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 16px;
+    font: inherit;
+    color: var(--text);
+    background: #fff;
+  }
+  .email-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(250,102,15,0.12);
+  }
+  .email-form button {
+    min-height: 54px;
+    border: none;
+    border-radius: 8px;
+    padding: 0 22px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .email-form button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+  .email-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+  .form-status {
+    min-height: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 10px 0 0;
+  }
+
+  .advisor-cta {
+    margin-top: 26px;
+    padding: 24px 26px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .advisor-cta h3 {
+    color: #fff;
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+  .advisor-cta p {
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 0;
+  }
+
   /* SYNDICATE RULE NOTE */
   .syndicate-note {
     background: var(--bg-callout);
@@ -590,6 +704,11 @@
     .cta-block h2 { font-size: 24px; }
     .cta-price .new { font-size: 32px; }
     .callout, .syndicate-note, .toc { padding: 20px; }
+    .email-capture { padding: 24px 22px; }
+    .email-form { grid-template-columns: 1fr; }
+    .email-form button { width: 100%; }
+    .cta-actions { display: grid; grid-template-columns: 1fr; }
+    .cta-actions .cta-btn { width: 100%; padding-left: 18px; padding-right: 18px; }
     blockquote { padding: 16px 20px; }
   }
 </style>
@@ -642,7 +761,7 @@
     UTM_KEYS.forEach(function(k) { if (utmFinal[k]) hasAny = true; });
     if (!hasAny) return;
 
-    var nodes = document.querySelectorAll('a[href*="lk.yourcashflow.ru"], a[href*="yourcashflow.getcourse.ru"]');
+    var nodes = document.querySelectorAll('a[href*="lk.yourcashflow.ru"], a[href*="yourcashflow.getcourse.ru"], a[href*="intensive.yourcashflow.ru"]');
     nodes.forEach(function(a) {
       try {
         var u = new URL(a.href);
@@ -1308,11 +1427,23 @@
     <p>Истерия кричит: <em>"Всё пропало, DeFi — пирамида, бегите"</em>.<br />
     Реальность говорит: <em>"Один проект пострадал из-за конкретного управленческого косяка. Система вокруг отреагировала за 36 часов. Правила ужесточаются. Отрасль эволюционирует."</em></p>
 
-    <p>Это <strong>принципиально разные</strong> картины мира. И от того, какую вы видите, зависят решения, которые вы примете со своими деньгами.</p>
-  </section>
+	  <p>Это <strong>принципиально разные</strong> картины мира. И от того, какую вы видите, зависят решения, которые вы примете со своими деньгами.</p>
+	  </section>
 
-  <!-- 15. CTA -->
-  <section id="intensive">
+	  <section class="email-capture" id="defi-checklist">
+	    <span class="eyebrow">Забрать чек-лист</span>
+	    <h3>12 пунктов, по которым я проверяю DeFi-протокол перед входом</h3>
+	    <p>Оставьте email — пришлю короткий чек-лист по рискам: TVL, аудит, команда, оракулы, смарт-контракты, ликвидность и признаки того, что в протокол лучше не заносить деньги.</p>
+	    <form class="email-form" id="defiChecklistForm">
+	      <input type="email" id="defiChecklistEmail" name="email" placeholder="Ваш email" autocomplete="email" required />
+	      <button type="submit" onclick="if(window.ym)ym(108681680,'reachGoal','email_checklist_submit_click');">Получить чек-лист</button>
+	    </form>
+	    <p class="email-note">Без спама и истерики. Только практичные разборы, чек-листы и важные обновления по DeFi.</p>
+	    <p class="form-status" id="defiChecklistStatus" aria-live="polite"></p>
+	  </section>
+
+	  <!-- 15. CTA -->
+	  <section id="intensive">
     <h2>Если вы дочитали до сюда — давайте честно</h2>
     <p>Этот пост — длинный. Почти тридцать тысяч знаков. Вы потратили на него 20–30 минут своего времени, и я благодарен.</p>
 
@@ -1348,10 +1479,18 @@
       </div>
       <p style="color:rgba(255,255,255,0.7);font-size:15px;margin-top:0;">Меньше, чем ужин в ресторане на двоих. Меньше, чем процент по стейблкоинному долгу в Aave за две недели.</p>
 
-      <a href="http://intensive.yourcashflow.ru/?utm_source=lead-magnet&amp;utm_medium=post&amp;utm_campaign=kelp-hack&amp;utm_content=cta-main" class="cta-btn" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','cta_click');">Перейти на интенсив →</a>
+	      <div class="cta-actions">
+	        <a href="http://intensive.yourcashflow.ru/?utm_source=lead-magnet&amp;utm_medium=post&amp;utm_campaign=kelp-hack&amp;utm_content=cta-main" class="cta-btn" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','cta_click');">Перейти на интенсив →</a>
+	        <a href="https://t.me/m/Vhoqj8nVOTcy" class="cta-btn secondary" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_dm_personal_audit_click');">Разобрать мою ситуацию</a>
+	      </div>
 
-      <span class="cta-guarantee">Гарантия: полный возврат в течение первых трёх уроков без вопросов, если не понравится.</span>
-    </div>
+	      <span class="cta-guarantee">Гарантия: полный возврат в течение первых трёх уроков без вопросов, если не понравится.</span>
+
+	      <div class="advisor-cta">
+	        <h3>Если не уверены, с чего начать</h3>
+	        <p>Напишите мне в Telegram коротко вашу ситуацию: где вы сейчас в крипте, какой капитал, чего боитесь и какую цель хотите решить. Я подскажу, что разумнее: просто дочитать разборы, зайти на интенсив или пока вообще ничего не трогать.</p>
+	      </div>
+	    </div>
 
     <p><strong>Почему я упоминаю это именно здесь.</strong> Сегодня вы прочитали пост про крупнейший взлом DeFi в 2026 году. Вы разобрались, как он случился, на каком уровне сломалось, кто виноват и что делать. <strong>Это взрослый уровень разговора.</strong> На таком же уровне устроен и интенсив: коротко, конкретно, с реальными цифрами и практикой.</p>
 
@@ -1366,10 +1505,61 @@
     <p style="margin-top:24px;color:var(--text-muted);font-size:13px;">© 2026 · <a href="http://intensive.yourcashflow.ru/?utm_source=lead-magnet&amp;utm_medium=post&amp;utm_campaign=kelp-hack&amp;utm_content=footer" onclick="if(window.ym)ym(108681680,'reachGoal','intensive_footer_click');">intensive.yourcashflow.ru</a> · <a href="https://t.me/+LrSOqEhbyF82NmMy" target="_blank" rel="noopener" onclick="if(window.ym)ym(108681680,'reachGoal','tg_footer_click');">t.me/CryptoStrategy</a></p>
   </footer>
 
-</main>
+	</main>
 
-<!-- Engagement tracker: scroll depth + time on page -->
-<script>
+	<script>
+	(function(){
+	  var form = document.getElementById('defiChecklistForm');
+	  if (!form) return;
+
+	  var emailInput = document.getElementById('defiChecklistEmail');
+	  var status = document.getElementById('defiChecklistStatus');
+	  var leadMagnet = 'kelp_hack_defi_risk_checklist';
+
+	  function currentUtm() {
+	    var params = window.__yc_utm || {};
+	    return [
+	      'utm_source=' + (params.utm_source || ''),
+	      'utm_medium=' + (params.utm_medium || ''),
+	      'utm_campaign=' + (params.utm_campaign || ''),
+	      'utm_content=' + (params.utm_content || ''),
+	      'utm_term=' + (params.utm_term || '')
+	    ].join('\n');
+	  }
+
+	  form.addEventListener('submit', function(e) {
+	    e.preventDefault();
+	    var email = (emailInput && emailInput.value || '').trim();
+	    if (!email) return;
+
+	    try {
+	      localStorage.setItem('yc_lead_email', email);
+	      localStorage.setItem('yc_lead_magnet', leadMagnet);
+	      localStorage.setItem('yc_lead_utm', currentUtm());
+	    } catch (err) {}
+
+	    if (window.ym) ym(108681680, 'reachGoal', 'email_checklist_submit');
+
+	    var subject = 'Чек-лист DeFi рисков';
+	    var body = [
+	      'Хочу получить чек-лист: 12 пунктов проверки DeFi-протокола.',
+	      '',
+	      'Email: ' + email,
+	      'Лид-магнит: ' + leadMagnet,
+	      '',
+	      'UTM:',
+	      currentUtm()
+	    ].join('\n');
+	    window.location.href = 'mailto:support@yourcashflow.ru?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+	    if (status) {
+	      status.textContent = 'Открылось письмо для отправки заявки. После подключения формы GetCourse этот шаг станет автоматическим.';
+	    }
+	  });
+	})();
+	</script>
+
+	<!-- Engagement tracker: scroll depth + time on page -->
+	<script>
 (function(){
   var fired = { s25:false, s50:false, s75:false, s100:false, t2min:false };
   function goal(g){ if(window.ym) ym(108681680, 'reachGoal', g); }
